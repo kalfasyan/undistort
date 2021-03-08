@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+chessboard_images/*.jpg
+chessboard_images/*.png
+stickyplate_images/*.jpg
+stickyplate_images/*.png
+undistorted_images/*.jpg
+undistorted_images/*.png
+result_params/
+output_success/
+output_allbnw/

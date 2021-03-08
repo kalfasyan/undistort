@@ -42,6 +42,9 @@ images = glob.glob(f'{chessboard_dir}/*.jpg')
 assert len(images) > 5, "Too few chessboard images for this session"
 assert len(images) < 15, "Too many chessboard images for this session"
 
+
+a, b = 7,7 # chessboard dims
+
 for fpath in images:
     fname = fpath.split('/')[-1][:-4]
     print(f'\nPROCESSING : {fname}')
@@ -52,14 +55,14 @@ for fpath in images:
     t = time.time()
     img = cv2.imread(fpath)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    gray = cv2.medianBlur(gray, 5)
     gray = cv2.bilateralFilter(gray,9,55,55)
-    gray = cv2.threshold(gray, 130, 255, cv2.THRESH_BINARY)[1] # threshold = 127  
+    gray = cv2.medianBlur(gray, 5)
+    gray = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)[1] # threshold = 127  
   
     cv2.imwrite(f'{chessboard_dir}/output_allbnw/{fname}_bnw.jpg',gray)
 
     # Find the chess board corners
-    ret, corners = cv2.findChessboardCorners(gray, (7,7),None)
+    ret, corners = cv2.findChessboardCorners(gray, (a,b),None)
 
     # If found, add object points, image points (after refining them)
     if ret == True:
