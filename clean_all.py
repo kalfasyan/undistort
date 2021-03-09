@@ -10,7 +10,10 @@ paths = [f"{chessboard_dir}/output_allbnw",
         f"{chessboard_dir}/result_params",
         f"{undistortedplates_dir}",
         f"{stickyplates_dir}",
-        f"{stickyplates_dir}"]
+        f"{chessboard_dir}"]
 
 for p in paths:
-    os.system(f"rm -rf {p}/*")
+    if p == f"{chessboard_dir}":
+            os.system(f"rm -rf {p}/*.jpg")
+    else:
+        os.system(f"rm -rf {p}/*")

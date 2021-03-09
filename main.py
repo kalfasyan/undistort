@@ -56,7 +56,7 @@ for fpath in images:
     img = cv2.imread(fpath)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray,9,55,55)
-    gray = cv2.medianBlur(gray, 5)
+    # gray = cv2.medianBlur(gray, 5)
     gray = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)[1] # threshold = 127  
   
     cv2.imwrite(f'{chessboard_dir}/output_allbnw/{fname}_bnw.jpg',gray)
