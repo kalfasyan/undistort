@@ -7,3 +7,5 @@ Simple package to undistort images.
 3. Run ```python main.py```. All undistorted images will be stored in an automatically created folder named `undistorted_images/`.  
 
 Dependencies: `numpy`,`opencv`
+
+**NOTE**: If you work on Windows, make sure to replace all "/" characters in `main.py` with "\\\\" (ignore the quotes). This might be fixed later using Python's pathlib.  
