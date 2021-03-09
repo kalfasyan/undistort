@@ -40,23 +40,28 @@ assert len(stickyplate_images) > 0, f"Please add some sticky plates to undistort
 
 images = glob.glob(f'{chessboard_dir}/*.jpg')
 assert len(images) > 5, "Too few chessboard images for this session"
-assert len(images) < 15, "Too many chessboard images for this session"
+assert len(images) < 15, "Too many chessboard images for this session. Maybe not all of them are chessboard images?"
 
+
+""" FINDING CHESSBOARD POINTS """
 
 a, b = 7,7 # chessboard dims
 
+successes = 0
 for fpath in images:
     fname = fpath.split('/')[-1][:-4]
     print(f'\nPROCESSING : {fname}')
 
     if "color" in fname:
-        print("Color image detected. Please use ONLY chessboard images. Ignoring this image.")
+        print("Color image detected. Please use ONLY chessboard images. Ignoring this one.")
         continue
 
     assert "chess" in fname, "Check that you put chessboard images only in this folder."
 
     t = time.time()
     img = cv2.imread(fpath)
+    if img is None:
+        raise ValueError("Image not read from opencv")
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray,9,55,55)
     gray = cv2.medianBlur(gray, 5)
@@ -69,6 +74,7 @@ for fpath in images:
 
     # If found, add object points, image points (after refining them)
     if ret == True:
+        successes+=1
         print("SUCCESS: Found points successfully! Adding object points.")
         
         objpoints.append(objp)
@@ -81,8 +87,13 @@ for fpath in images:
         cv2.imshow('img',cv2.resize(img, (828, 746)))
         cv2.waitKey(100)
         cv2.imwrite(f'{chessboard_dir}/output_success/{fname}_chessboard_found.jpg',img)
+    else:
+        print("FAIL: Was not able to find the points.")
     print(f'Elapsed time for {fname}: {time.time() - t} seconds')
 cv2.destroyAllWindows()
+
+if successes < 7:
+    raise KeyError("Not enough chessboard images were processed succesfully..")
 
 """ CAMERA CALIBRATION """
 
@@ -102,6 +113,9 @@ for fpath in stickyplate_images:
     ret, mtx, dist, rvecs, tvecs = data['ret'], data['mtx'], data['dist'], data['rvecs'], data['tvecs']
 
     img = cv2.imread(f'{stickyplates_dir}/{fname}.jpg')
+    if img is None:
+        raise ValueError("Image not read from opencv")
+
     h,  w = img.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
 
