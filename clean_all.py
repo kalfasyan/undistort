@@ -8,12 +8,13 @@ undistortedplates_dir = './undistorted_images'
 paths = [f"{chessboard_dir}/output_allbnw", 
         f"{chessboard_dir}/output_success", 
         f"{chessboard_dir}/result_params",
-        f"{undistortedplates_dir}",
-        f"{stickyplates_dir}",
-        f"{chessboard_dir}"]
+        undistortedplates_dir,
+        stickyplates_dir,
+        chessboard_dir]
 
 for p in paths:
-    if p == f"{chessboard_dir}":
-            os.system(f"rm -rf {p}/*.jpg")
+    print(f"Cleaning: {p}")
+    if p in [chessboard_dir, stickyplates_dir]:
+        os.system(f"rm -rf {p}/*.jpg")
     else:
         os.system(f"rm -rf {p}/*")
