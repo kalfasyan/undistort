@@ -1,8 +1,9 @@
-import numpy as np
-import cv2
 import glob
-import time
 import os
+import time
+
+import cv2
+import numpy as np
 
 clean = True
 
