@@ -113,9 +113,7 @@ for fpath in stickyplate_images:
     ret, mtx, dist, rvecs, tvecs = data['ret'], data['mtx'], data['dist'], data['rvecs'], data['tvecs']
 
     img = cv2.imread(f'{stickyplates_dir}/{fname}.jpg')
-    if img is None:
-        raise ValueError("Image not read from opencv")
-
+    
     h,  w = img.shape[:2]
     newcameramtx, roi=cv2.getOptimalNewCameraMatrix(mtx,dist,(w,h),1,(w,h))
 
