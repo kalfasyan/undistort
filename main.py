@@ -49,14 +49,17 @@ for fpath in images:
     fname = fpath.split('/')[-1][:-4]
     print(f'\nPROCESSING : {fname}')
 
-    assert "color" not in fname, "Error: Color image detected. Please use ONLY chessboard images."
+    if "color" in fname:
+        print("Color image detected. Please use ONLY chessboard images. Ignoring this image.")
+        continue
+
     assert "chess" in fname, "Check that you put chessboard images only in this folder."
 
     t = time.time()
     img = cv2.imread(fpath)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray,9,55,55)
-    # gray = cv2.medianBlur(gray, 5)
+    gray = cv2.medianBlur(gray, 5)
     gray = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)[1] # threshold = 127  
   
     cv2.imwrite(f'{chessboard_dir}/output_allbnw/{fname}_bnw.jpg',gray)
