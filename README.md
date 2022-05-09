@@ -9,4 +9,4 @@ Simple package to undistort images.
 
 Dependencies: `numpy`,`opencv`
 
-**NOTE**: If you work on Windows, make sure to replace all "/" characters in `main.py` and `clean_all.py` with "\\\\" (ignore the quotes). This might be fixed later using Python's pathlib.  
+**NOTE**: If you work on Windows, you will encounter issues with the file-paths. To solve them you have some options: 1) replace strings with "raw strings" (example: r"this is a raw string"), 2) make sure to replace all "/" characters in `main.py` and `clean_all.py` with "\\\\" (ignore the quotes) or 3) try using Python's pathlib to handle paths.  
